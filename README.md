@@ -39,7 +39,6 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 ```
 
 ## Parameters:
-<hr />
 <table>
 	<thead>
 		<th></th>
@@ -88,10 +87,8 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 		</tr>
 	</tbody>
 </table>
-<hr />
 
 <h2>Returned Data: <code>PropertyInfo</code></h2>
-<hr />
 <table>
 	<thead>
 		<th></th>
@@ -171,7 +168,6 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 		</tr>
 	</tbody>
 </table>
-<hr />
 
 # License
 
