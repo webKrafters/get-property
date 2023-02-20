@@ -31,16 +31,12 @@
 	npm insall -save-dev @webkrafters/get-property<br />
 </p>
 
-<br />
-
 ## Usage:
 
 ```jsx
 import getProperties from '@webkrafters/get-property';
 const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 ```
-
-<br />
 
 ## Parameters:
 <hr />
@@ -93,8 +89,6 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 	</tbody>
 </table>
 <hr />
-
-<br />
 
 <h2>Returned Data: <code>PropertyInfo</code></h2>
 <hr />
@@ -178,8 +172,6 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 	</tbody>
 </table>
 <hr />
-
-<br />
 
 # License
 
