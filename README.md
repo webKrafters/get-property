@@ -6,7 +6,7 @@
 	<a href="https://github.com/webKrafters/get-property/actions">
 		<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/webKrafters/get-property/test.yml">
 	</a>
-	<a href="https://coveralls.io/github/webKrafters/react-observable-context">
+	<a href="https://coveralls.io/github/webKrafters/get-property">
 		<img alt="coverage" src="https://img.shields.io/coveralls/github/webKrafters/get-property">
 	</a>
 	<img alt="NPM" src="https://img.shields.io/npm/l/@webkrafters/get-property">
