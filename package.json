@@ -59,6 +59,7 @@
   "scripts": {
     "build": "eslint --fix && rm -rf dist && babel src -d dist && npx -p typescript tsc",
     "test": "eslint --fix && jest --coverage",
+    "test:core": "jest",
     "test:watch": "eslint --fix && jest --watchAll"
   },
   "types": "dist/index.d.ts",
