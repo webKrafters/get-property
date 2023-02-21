@@ -66,6 +66,7 @@ const source = {
 			year: '2017'
 		}]
 	},
+	nullTester: null,
 	tags: [
 		'minim',
 		'nisi',
@@ -83,35 +84,15 @@ const source = {
 
 describe( 'getProperty(...)', () => {
 	test( 'obtains info about property located at path in a source data', () => {
-		expect( getProperty( source, 'classInstance' ) ).toStrictEqual({
-			_value: source.classInstance,
+		expect( getProperty( source, 'nullTester' ) ).toStrictEqual({
+			_value: source.nullTester,
 			exists: true,
 			index: NaN,
 			isSelf: false,
-			key: 'classInstance',
+			key: 'nullTester',
 			source: source,
-			trail: [ 'classInstance' ],
-			value: source.classInstance
-		});
-		expect( getProperty( source, 'classInstance.lastName' ) ).toStrictEqual({
-			_value: source.classInstance.lastName,
-			exists: true,
-			index: NaN,
-			isSelf: false,
-			key: 'lastName',
-			source: source.classInstance,
-			trail: [ 'classInstance', 'lastName' ],
-			value: source.classInstance.lastName
-		});
-		expect( getProperty( source, 'classInstance.range.-1' ) ).toStrictEqual({
-			_value: source.classInstance.range[ 6 ],
-			exists: true,
-			index: 6,
-			isSelf: false,
-			key: '-1',
-			source: source.classInstance.range,
-			trail: [ 'classInstance', 'range', 6 ],
-			value: source.classInstance.range[ 6 ]
+			trail: [ 'nullTester' ],
+			value: source.nullTester
 		});
 		expect( getProperty( source, 'tags.-2' ) ).toStrictEqual({
 			_value: source.tags[ 5 ],
@@ -182,6 +163,36 @@ describe( 'getProperty(...)', () => {
 			source: undefined,
 			trail: [ 'history', 'places', 1 ],
 			value: DEFAULT
+		});
+		expect( getProperty( source, 'classInstance' ) ).toStrictEqual({
+			_value: source.classInstance,
+			exists: true,
+			index: NaN,
+			isSelf: false,
+			key: 'classInstance',
+			source: source,
+			trail: [ 'classInstance' ],
+			value: source.classInstance
+		});
+		expect( getProperty( source, 'classInstance.lastName' ) ).toStrictEqual({
+			_value: source.classInstance.lastName,
+			exists: true,
+			index: NaN,
+			isSelf: false,
+			key: 'lastName',
+			source: source.classInstance,
+			trail: [ 'classInstance', 'lastName' ],
+			value: source.classInstance.lastName
+		});
+		expect( getProperty( source, 'classInstance.range.-1' ) ).toStrictEqual({
+			_value: source.classInstance.range[ 6 ],
+			exists: true,
+			index: 6,
+			isSelf: false,
+			key: '-1',
+			source: source.classInstance.range,
+			trail: [ 'classInstance', 'range', 6 ],
+			value: source.classInstance.range[ 6 ]
 		});
 		expect( getProperty( source, 'none' ) ).toStrictEqual({
 			_value: undefined,

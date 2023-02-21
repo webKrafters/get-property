@@ -57,7 +57,7 @@
     "url": "git+https://github.com/webKrafters/get-property.git"
   },
   "scripts": {
-    "build": "eslint --fix && rm -rf dist && babel src -d dist && npx -p typescript tsc",
+    "build": "eslint --fix && rm -rf dist && babel src -d dist --ignore '**/*.test.js' && npx -p typescript tsc",
     "test": "eslint --fix && jest --coverage",
     "test:core": "jest",
     "test:watch": "eslint --fix && jest --watchAll"
