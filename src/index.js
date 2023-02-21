@@ -1,3 +1,5 @@
+const DEFAULT_VAL = {};
+
 const RE_DELIMITER = /[\[\]|\.]+/g;
 
 const RE_END_BRACKET_LAST_CHAR = /\]$/;
@@ -18,7 +20,7 @@ const toString = Object.prototype.toString;
  *
  * @see lodash.get documentation
  */
-function getProperty( source, path, defaultValue = undefined ) {
+function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
 	switch( toString.call( path ).replace( RE_TYPE, '$1' ) ) {
 		case 'String': path = path.replace( RE_END_BRACKET_LAST_CHAR, '' ).split( RE_DELIMITER ); break;
 		case 'Array': break;
@@ -60,7 +62,7 @@ function getProperty( source, path, defaultValue = undefined ) {
 		key: path?.[ path.length - 1 ],
 		source: path.length && path.length - trail.length < 2 ? source : undefined,
 		trail,
-		value: _value ?? defaultValue
+		value: _value ?? ( defaultValue === DEFAULT_VAL ? _value : defaultValue )
 	};
 }
 
