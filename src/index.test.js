@@ -280,7 +280,7 @@ describe( 'getProperty(...)', () => {
 		} );
 	} );
 	test( 'does not reverse-access indexed objects', () => {
-		expect( getProperty({ 0: 'one', 1: 'two', 2: 'three' }, -1 ).value ).toBeUndefined();
+		expect( getProperty( { 0: 'one', 1: 'two', 2: 'three' }, -1 ).value ).toBeUndefined();
 	} );
 	test( 'returns undefined immediately on reverse access error', () => {
 		expect( getProperty( { 0: { name: 'one' } }, '[-1].name' ).value ).toBeUndefined();
@@ -298,5 +298,42 @@ describe( 'getProperty(...)', () => {
 		expect( getProperty( data, 'uuyuw.654.-2[history][places[-3]].year' ).value ).toBe(
 			data.uuyuw[ '654' ][ 1 ].history.places[ 0 ].year
 		);
+	} );
+	describe( 'non object source parameter', () => {
+		let scalarProperty;
+		beforeAll(() => {
+			scalarProperty = {
+				_value: undefined,
+				exists: false,
+				index: NaN,
+				isSelf: false,
+				key: 'b',
+				source: undefined,
+				trail: [],
+				value: undefined
+			};
+		});
+		test( 'resolves array value', () => {
+			expect( getProperty( [ 22, 44, 333, { b: 90 }], '[-1].b' ) ).toStrictEqual({
+				_value: 90,
+				exists: true,
+				index: NaN,
+				isSelf: false,
+				key: 'b',
+				source: { b: 90 },
+				trail: [ 3, 'b' ],
+				value: 90
+			});
+		} );
+		
+		test( 'ignores attempts to search atomic values', () => {
+			expect( getProperty( 44, '[-1].b' ) ).toStrictEqual( scalarProperty );
+		} );
+		test( 'ignores attempts to search null values', () => {
+			expect( getProperty( null, '[-1].b' ) ).toStrictEqual( scalarProperty );
+		} );
+		test( 'ignores attempts to search undefined values', () => {
+			expect( getProperty( undefined, '[-1].b' ) ).toStrictEqual( scalarProperty );
+		} );
 	} );
 } );
