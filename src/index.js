@@ -2,6 +2,8 @@ const DEFAULT_VAL = {};
 
 const RE_DELIMITER = /[\[\]|\.]+/g;
 
+const RE_BEG_BRACKET_LAST_CHAR = /^\[/;
+
 const RE_END_BRACKET_LAST_CHAR = /\]$/;
 
 const RE_TYPE = /.*\s(\w+)\]$/;
@@ -21,13 +23,23 @@ const toString = Object.prototype.toString;
  * @see lodash.get documentation
  */
 function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
-	switch( toString.call( path ).replace( RE_TYPE, '$1' ) ) {
-		case 'String': path = path.replace( RE_END_BRACKET_LAST_CHAR, '' ).split( RE_DELIMITER ); break;
+	switch( getTypeName( path ) ) {
+		case 'String': {
+			path = path
+				.replace( RE_BEG_BRACKET_LAST_CHAR, '' )
+				.replace( RE_END_BRACKET_LAST_CHAR, '' )
+				.split( RE_DELIMITER ); 
+			break;
+		}
 		case 'Array': break;
 		case 'Undefined': path = []; break;
 		default: path = [ path ];
 	}
-	let _value = source;
+	let _value;
+	{
+		const t = getTypeName( source );
+		_value = t === 'Object' || t === 'Array' ? source : {};
+	}
 	let exists = true;
 	let index = NaN;
 	const trail = [];
@@ -65,6 +77,8 @@ function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
 		value: _value ?? ( defaultValue === DEFAULT_VAL ? _value : defaultValue )
 	};
 }
+
+function getTypeName( value ) { return toString.call( value ).replace( RE_TYPE, '$1' ) }
 
 function hasEntry( key, object ) {
 	try {
