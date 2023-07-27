@@ -59,7 +59,7 @@ function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
 			}
 		}
 		source = _value;
-		_value = source[ p ];
+		_value = source?.[ p ];
 		if( _value === undefined && !hasEntry( p, source ) ) {
 			exists = false;
 			break;
