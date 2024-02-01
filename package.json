@@ -34,8 +34,12 @@
   ],
   "homepage": "https://github.com/webKrafters/get-property#readme",
   "jest": {
-    "collectCoverageFrom": [ "src/**/*.js" ],
-    "testPathIgnorePatterns": [ "dist" ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "dist"
+    ],
     "transform": {
       "\\.[jt]sx?$": "babel-jest"
     }
@@ -57,11 +61,11 @@
     "url": "git+https://github.com/webKrafters/get-property.git"
   },
   "scripts": {
-    "build": "eslint --fix && rm -rf dist && babel src -d dist --ignore '**/*.test.js' && npx -p typescript tsc",
+    "build": "eslint --fix && rm -rf dist && babel src -d dist --ignore '**/*.test.js' && tsc",
     "test": "eslint --fix && jest --coverage",
     "test:core": "jest",
     "test:watch": "eslint --fix && jest --watchAll"
   },
   "types": "dist/index.d.ts",
-  "version": "1.1.1"
+  "version": "1.1.2"
 }
