@@ -80,7 +80,7 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 				<i>[optional]</i>
 			</td>
 			<td>
-				Value property to return if data a tproperty path is either not found or <code>null</code> or <code>undefined</code>.
+				Value property to return if data at property path is either not found or <code>null</code> or <code>undefined</code>.
 			</td>
 			<td>Any</td>
 			<td>Undefined</td>
@@ -168,6 +168,48 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 		</tr>
 	</tbody>
 </table>
+
+## Example:
+```jsx
+import getProperties from '@webkrafters/get-property';
+
+const source = {
+    address: {
+        city: 'Test City',
+        state: 'My Province'
+    },
+    matrix: [
+        [ [ 0, 3, 1 ], [ 4, 0, 3 ] ],
+        [ [ 4, 1, 9 ], [ 7, 4, 9 ] ],
+        [ [ 8, 7, 3 ], [ 0, 3, 1 ] ]
+    ],
+    registered: {
+        time: new Date(),
+        timezone: 'Eastern Time'
+    },
+    tags: [ 'test', 'foo', 'bar', 'baz', 'boo', 'tap', 'bak' ]
+};
+
+const property = getProperties(
+	source,
+	'registered.timezone',
+	'Mountain Time'
+);
+// returns property info object => {
+// 		_value: 'Eastern Time',
+// 		exists: true,
+// 		index: undefined,
+// 		isSelf: false,
+// 		key: 'timezone',
+// 		source: {
+// 		    time: new Date(),
+// 		    timezone: 'Eastern Time'
+// 		},
+// 		trail: [ 'registered', 'timezone' ],
+// 		value: 'Eastern Time'
+// }
+```
+<br /> <br />
 
 # License
 
