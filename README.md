@@ -170,6 +170,7 @@ const property = getProperties(data, path, defaultValue?); // => PropertyInfo
 </table>
 
 ## Example:
+### A successful query:
 ```jsx
 import getProperties from '@webkrafters/get-property';
 
@@ -198,7 +199,7 @@ const property = getProperties(
 // returns property info object => {
 // 	_value: 'Eastern Time',
 // 	exists: true,
-// 	index: undefined,
+// 	index: NaN,
 // 	isSelf: false,
 // 	key: 'timezone',
 // 	source: {
@@ -209,7 +210,30 @@ const property = getProperties(
 // 	value: 'Eastern Time'
 // }
 ```
-<br /> <br />
+
+## Example:
+### An unsuccessful query.
+```jsx
+// USING SAME SOURCE OBJECT AS ABOVE USAGE
+// ---------------------------------------
+const property = getProperties(
+	source,
+	'matrix[1][0][8]',
+	'n.a.'
+);
+// returns property info object => {
+// 	_value: undefined,
+// 	exists: false,
+// 	index: 8,
+// 	isSelf: false,
+// 	key: '8',
+// 	source: [ 4, 1, 9 ],
+// 	trail: [ 'matrix', 1, 0 ],
+// 	value: 'n.a.'
+// }
+```
+
+<br />
 
 # License
 
