@@ -196,17 +196,17 @@ const property = getProperties(
 	'Mountain Time'
 );
 // returns property info object => {
-// 		_value: 'Eastern Time',
-// 		exists: true,
-// 		index: undefined,
-// 		isSelf: false,
-// 		key: 'timezone',
-// 		source: {
-// 		    time: new Date(),
-// 		    timezone: 'Eastern Time'
-// 		},
-// 		trail: [ 'registered', 'timezone' ],
-// 		value: 'Eastern Time'
+// 	_value: 'Eastern Time',
+// 	exists: true,
+// 	index: undefined,
+// 	isSelf: false,
+// 	key: 'timezone',
+// 	source: {
+// 	    time: new Date(),
+// 	    timezone: 'Eastern Time'
+// 	},
+// 	trail: [ 'registered', 'timezone' ],
+// 	value: 'Eastern Time'
 // }
 ```
 <br /> <br />
