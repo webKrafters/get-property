@@ -1,29 +1,37 @@
-import getProperty from '.';
+import getProperty, { PropertyInfo } from '.';
 
 const DEFAULT = '___default___';
 
 class Parent {
+	#firstName;
+	#lastName;
+	#range;
 	constructor({ firstName, lastName }) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.range = [ 0, 1, 2, 3, 4, 5, 6 ]
+		this.#firstName = firstName;
+		this.#lastName = lastName;
+		this.#range = [ 0, 1, 2, 3, 4, 5, 6 ]
 	}
+	get firstName(){ return this.#firstName }
 	get fullName () {
-		return this.lastName + ', ' + this.firstName;
+		return this.#lastName + ', ' + this.#firstName;
 	}
+	get lastName(){ return this.#lastName }
+	get range(){ return this.#range }
 }
 
 class Child extends Parent {
+	#age;
 	#flag;
-
 	constructor( name, age ) {
 		super( name );
-		this.age = age;
+		this.#age = age;
 		this.#flag = true;
 	}
+	get age(){ return this.#age }
 	get desc () {
-		return this.fullName + ' | ' + this.age;
+		return this.fullName + ' | ' + this.#age;
 	}
+	get flag(){ return this.#flag }
 }
 
 const source = {
@@ -254,7 +262,9 @@ describe( 'getProperty(...)', () => {
 			'friends.-3.name.last', 'friends[-3].name.last',
 			[ 'friends', '-3', 'name', 'last' ],
 			[ 'friends', -3, 'name', 'last' ]
-		].forEach( path => expect( getProperty( source, path ).value ).toBe( bestieLastName ) );
+		].forEach(( path : string | Array<string|number> ) => {
+			expect( getProperty( source, path as string ).value ).toBe( bestieLastName );
+		} );
 		expect( getProperty([ 'one', 'two', 'three' ], 2 ).value ).toBe( 'three' );
 		expect( getProperty([ 'one', 'two', 'three' ], -1 ).value ).toBe( 'three' );
 		expect( getProperty({ 0: 'one', 1: 'two', 2: 'three' }, 2 ).value ).toBe( 'three' );
@@ -266,17 +276,20 @@ describe( 'getProperty(...)', () => {
 	} );
 	test( 'accesses array', () => {
 		const name = source.friends[ 1 ].name;
-		[ 'friends.1.name', 'friends[1].name', [ 'friends', 1, 'name' ], [ 'friends', '1', 'name' ] ].forEach( path => {
-			expect( getProperty( source, path ).value ).toBe( name );
-		} );
+		[ 'friends.1.name', 'friends[1].name', [ 'friends', 1, 'name' ], [ 'friends', '1', 'name' ] ].forEach(
+			( path :  string | Array<string|number> ) => {
+				expect( getProperty( source, path as string ).value ).toBe( name );
+	 		}
+		);
 	} );
 	test( 'does not access array with a non-integer corresponding key in path', () => {
 		expect( getProperty( source, 'friends.a' ).value ).toBeUndefined();
 	} );
 	test( 'accesses array in reverse', () => {
 		const name = source.friends[ 1 ].name;
-		[ 'friends.-2.name', 'friends[-2].name', [ 'friends', -2, 'name' ], [ 'friends', '-2', 'name' ] ].forEach( path => {
-			expect( getProperty( source, path ).value ).toBe( name );
+		[ 'friends.-2.name', 'friends[-2].name', [ 'friends', -2, 'name' ], [ 'friends', '-2', 'name' ] ].forEach(
+			( path :  string | Array<string|number> )  => {
+			expect( getProperty( source, path as string ).value ).toBe( name );
 		} );
 	} );
 	test( 'does not reverse-access indexed objects', () => {
@@ -296,11 +309,11 @@ describe( 'getProperty(...)', () => {
 			}
 		};
 		expect( getProperty( data, 'uuyuw.654.-2[history][places[-3]].year' ).value ).toBe(
-			data.uuyuw[ '654' ][ 1 ].history.places[ 0 ].year
+			data.uuyuw[ '654' ][ 1 ]!.history.places[ 0 ].year
 		);
 	} );
 	describe( 'non object source parameter', () => {
-		let scalarProperty;
+		let scalarProperty : PropertyInfo<undefined>;
 		beforeAll(() => {
 			scalarProperty = {
 				_value: undefined,
@@ -325,7 +338,6 @@ describe( 'getProperty(...)', () => {
 				value: 90
 			});
 		} );
-		
 		test( 'ignores attempts to search atomic values', () => {
 			expect( getProperty( 44, '[-1].b' ) ).toStrictEqual( scalarProperty );
 		} );
