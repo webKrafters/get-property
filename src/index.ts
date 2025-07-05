@@ -1,3 +1,15 @@
+export type KeyType = number|string|symbol;
+export interface PropertyInfo<T = unknown> {
+	_value : unknown; // Actual value held in object at the property path
+	exists : boolean;
+	index : number;  // Sanitized key corresponding to an index where the parent is an array and the key is alphanumeric integer
+	isSelf : boolean; // Where this._value === object [valid when returning the object for an empty property path]
+	key : KeyType;
+	source : unknown; // Parent object supposedly containing the property at key
+	trail : Array<KeyType>; // Property path segment representing the farthest valid property/sub property path found.
+	value : T; // Value returned
+}
+
 const DEFAULT_VAL = {};
 
 const RE_DELIMITER = /[\[\]|\.]+/g;
@@ -12,17 +24,34 @@ const toString = Object.prototype.toString;
 
 /**
  * An extension of the lodash.get function.
- *
- * @param {T} source
- * @param {KeyType|Array<KeyType>} [path]
- * @param {*} [defaultValue]
- * @returns {PropertyInfo}
- *
- * @template [T=any]
- *
  * @see lodash.get documentation
  */
-function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
+function getProperty<V = unknown>(
+	source : unknown,
+	path? : Array<KeyType>,
+	defaultValue? : V
+) : PropertyInfo<V>;
+function getProperty<V = unknown>(
+	source : unknown,
+	path? : symbol,
+	defaultValue? : V
+) : PropertyInfo<V>;
+function getProperty<V = unknown>(
+	source : unknown,
+	path? : string,
+	defaultValue? : V
+) : PropertyInfo<V>;
+function getProperty<V = unknown>(
+	source : unknown,
+	path? : number,
+	defaultValue? : V
+) : PropertyInfo<V>;
+function getProperty<V = unknown>(
+	source,
+	path,
+	defaultValue? : V
+) : PropertyInfo<V> {
+	defaultValue ??= ( DEFAULT_VAL as V );
 	switch( getTypeName( path ) ) {
 		case 'String': {
 			path = path
@@ -51,7 +80,7 @@ function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
 				if( _index < 0 ) { _index = _value.length + _index }
 				index = _index
 				if( index in _value ) {
-					source = _value;
+					source = _value,
 					_value = _value[ index ];
 					trail.push( index );
 					continue;
@@ -78,7 +107,11 @@ function getProperty( source, path, defaultValue = DEFAULT_VAL ) {
 	};
 }
 
-function getTypeName( value ) { return toString.call( value ).replace( RE_TYPE, '$1' ) }
+function getTypeName( value ) {
+	return toString
+		.call( value )
+		.replace( RE_TYPE, '$1' );
+}
 
 function hasEntry( key, object ) {
 	try {
@@ -89,17 +122,3 @@ function hasEntry( key, object ) {
 }
 
 export default getProperty;
-
-/**
- * @typedef {Object} PropertyInfo
- * @property {*} Property._value - Actual value held in object at the property path
- * @property {boolean} Property.exists
- * @property {number}  Property.index - Sanitized key corresponding to an index where the parent is an array and the key is alphanumeric integer
- * @property {boolean} Property.isSelf - Where this._value === object [valid when returning the object for an empty property path]
- * @property {KeyType} Property.key
- * @property {Array|{[x:KeyType]: *}} Property.source - Parent object supposedly containing the property at key
- * @property {Array<KeyType>} Property.trail - Property path segment representing the farthest valid property/sub property path found.
- * @property {*} Property.value - Value returned
- */
-
-/** @typedef {number|string|symbol} KeyType */
